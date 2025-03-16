@@ -1,0 +1,16 @@
+/* Navigation Bar */
+.navbar {
+  --bs-navbar-padding-x: 0.5rem;
+  --bs-navbar-padding-y: 0.8rem;
+  --bs-navbar-toggler-font-size: 1.5rem;
+  --bs-navbar-brand-font-size: 1.5rem;
+  height: fit-content;
+  font-size: large;
+  background-color: #eeedeb;
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1400px;
+  }
+}

@@ -51,12 +51,6 @@ export default function Navbar() {
                 <span style={{fontWeight: "bolder"}}>Admin Login</span>
                 </NavLink>
               </li>
-
-              {/* <li className="nav-item mx-5">
-                <NavLink to="/code" className="nav-link">
-                <span style={{fontWeight: "bolder"}}>Sign-up Code</span>
-                </NavLink>
-              </li> */}
             </ul>
           </div>
         </div>

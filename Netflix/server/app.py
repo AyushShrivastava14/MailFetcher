@@ -14,7 +14,7 @@ password = os.getenv("FORWARD_MAIL_PASS")
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # Initial valid access codes
-valid_access_codes = ['0000', '1111']
+valid_access_codes = ['6969']
 
 @app.route('/get_last_email', methods=['GET'])
 def get_last_email():

@@ -5,14 +5,14 @@ export default function AdminOptions() {
     const [inputCode, setInputCode] = useState('');
 
     const fetchAccessCodes = async () => {
-        const response = await fetch('http://127.0.0.1:5000/access-codes');
+        const response = await fetch('https://mailfetcher-backend.onrender.com/access-codes');
         const data = await response.json();
         // console.log(data);
         alert(data);
     };
 
     const addAccessCode = async () => {
-        const response = await fetch('http://127.0.0.1:5000/access-codes', {
+        const response = await fetch('https://mailfetcher-backend.onrender.com/access-codes', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ code: inputCode })
@@ -23,7 +23,7 @@ export default function AdminOptions() {
     };
 
     const removeAccessCode = async () => {
-        const response = await fetch('http://127.0.0.1:5000/access-codes', {
+        const response = await fetch('https://mailfetcher-backend.onrender.com/access-codes', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ code: inputCode })

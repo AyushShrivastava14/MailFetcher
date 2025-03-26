@@ -11,7 +11,7 @@ export default function Login() {
         event.preventDefault();
 
         try {
-            const response = await fetch('http://127.0.0.1:5000/access-codes');
+            const response = await fetch('https://mailfetcher-backend.onrender.com/access-codes');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }

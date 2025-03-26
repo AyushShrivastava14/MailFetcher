@@ -12,7 +12,7 @@ function EmailReader() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.get("http://127.0.0.1:5000/get_last_email", {
+      const response = await axios.get("https://mailfetcher-backend.onrender.com/get_last_email", {
         params: { search: searchString, subject: subject },
       });
       setEmailData(response.data);

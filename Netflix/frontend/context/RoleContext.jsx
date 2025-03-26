@@ -22,7 +22,7 @@ export const RoleProvider = ({ children }) => {
 
   const saveRole = async (role) => {
     try {
-      const response = await fetch("http://127.0.0.1:5000/generate-token", {
+      const response = await fetch("https://mailfetcher-backend.onrender.com/generate-token", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ role: role }),
@@ -50,7 +50,7 @@ export const RoleProvider = ({ children }) => {
   const verifyStoredToken = async (role, storedToken) => {
     if (storedToken) {
       try {
-        const response = await fetch("http://127.0.0.1:5000/verify-token", {
+        const response = await fetch("https://mailfetcher-backend.onrender.com/verify-token", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ token: storedToken }),

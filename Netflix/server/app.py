@@ -131,5 +131,10 @@ def verify_token_route():
         return jsonify({"message": "Token is invalid or expired"}), 401
 
 
+@app.route('/')
+def home():
+    return jsonify({"message": "Backend is running"}), 200
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

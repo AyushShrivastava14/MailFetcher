@@ -17,13 +17,11 @@ export default function Navbar() {
               src={logo}
               alt="LOGO"
               style={{
-                height: "2rem",
-                width: "2rem",
-                mixBlendMode: "hard-light",
+                height: "2.5rem",
+                width: "1.5rem",
                 margin: "1rem"
               }}
-            />{" "}
-            <span style={{fontWeight: "bolder"}}>Anand</span>
+            />
           </NavLink>
           <button
             className="navbar-toggler"

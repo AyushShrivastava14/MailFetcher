@@ -7,12 +7,12 @@ function EmailReader() {
   const [emailData, setEmailData] = useState(null);
   const [error, setError] = useState(null);
   const [searchString, setSearchString] = useState("");
-  const {subject} = useRole();
+  const {subject, url} = useRole();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.get("https://mailfetcher-backend.onrender.com/get_last_email", {
+      const response = await axios.get(url + "/get_last_email", {
         params: { search: searchString, subject: subject },
       });
       setEmailData(response.data);

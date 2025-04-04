@@ -6,8 +6,13 @@ import os
 import jwt
 
 app = Flask(__name__)
-cors_origins = "https://mailfetcher-frontend.onrender.com"
-CORS(app, origins=[cors_origins])
+cors_origins = [
+    os.getenv("ORIGIN_1"),
+    os.getenv("ORIGIN_2")
+]
+
+CORS(app, origins=cors_origins)
+
 
 imap_server = "imap.gmail.com"
 email_address = os.getenv("FORWARD_MAIL")

@@ -3,6 +3,9 @@ import React, { createContext, useContext, useState } from "react";
 const RoleContext = createContext("");
 
 export const RoleProvider = ({ children }) => {
+  // const url = "https://mailfetcher-backend.onrender.com";
+  const url = import.meta.env.VITE_URL;
+
   const [role, setRole] = useState(() => {
     const savedRole = localStorage.getItem("role");
     return savedRole ? savedRole : "";
@@ -22,7 +25,7 @@ export const RoleProvider = ({ children }) => {
 
   const saveRole = async (role) => {
     try {
-      const response = await fetch("https://mailfetcher-backend.onrender.com/generate-token", {
+      const response = await fetch(url + "/generate-token", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ role: role }),
@@ -50,7 +53,7 @@ export const RoleProvider = ({ children }) => {
   const verifyStoredToken = async (role, storedToken) => {
     if (storedToken) {
       try {
-        const response = await fetch("https://mailfetcher-backend.onrender.com/verify-token", {
+        const response = await fetch(url + "/verify-token", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ token: storedToken }),
@@ -78,6 +81,7 @@ export const RoleProvider = ({ children }) => {
     <RoleContext.Provider
       value={{
         role,
+        url,
         token,
         subject,
         saveRole,

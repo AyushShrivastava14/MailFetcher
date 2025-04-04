@@ -5,13 +5,13 @@ import { useRole } from '../context/RoleContext';
 export default function Login() {
     const navigate = useNavigate();
     const [inputCode, setInputCode] = useState('');
-    const {saveRole} = useRole();
+    const {saveRole, url} = useRole();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            const response = await fetch('https://mailfetcher-backend.onrender.com/access-codes');
+            const response = await fetch(url + '/access-codes');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }

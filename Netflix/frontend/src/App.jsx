@@ -3,7 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import EmailReader from "../components/EmailReader";
 import Navbar from "../components/Navbar";
-import HomePage from "../components/HomePage";
+// import HomePage from "../components/HomePage";
 import Login from "../components/Login";
 import AdminLogin from "../components/AdminLogin";
 import AdminOptions from "../components/AdminOptions";
@@ -19,7 +19,7 @@ function App() {
       <Navbar />
       <div className="container-fluid home_page px-0 d-flex justify-content-center align-items-center">
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<Login />} />
 
           {role === "user" ? (
             <>

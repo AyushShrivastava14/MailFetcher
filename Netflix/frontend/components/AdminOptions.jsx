@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 // import { useAccessCode } from '../context/AccessCodeContext';
+import { useRole } from '../context/RoleContext';
 
 export default function AdminOptions() {
     const [inputCode, setInputCode] = useState('');
+    const {url} = useRole();
 
     const fetchAccessCodes = async () => {
-        const response = await fetch('https://mailfetcher-backend.onrender.com/access-codes');
+        const response = await fetch(url + '/access-codes');
         const data = await response.json();
         // console.log(data);
         alert(data);
     };
 
     const addAccessCode = async () => {
-        const response = await fetch('https://mailfetcher-backend.onrender.com/access-codes', {
+        const response = await fetch(url + '/access-codes', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ code: inputCode })
@@ -23,7 +25,7 @@ export default function AdminOptions() {
     };
 
     const removeAccessCode = async () => {
-        const response = await fetch('https://mailfetcher-backend.onrender.com/access-codes', {
+        const response = await fetch(url + '/access-codes', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ code: inputCode })

@@ -11,7 +11,7 @@ export default function Login() {
         event.preventDefault();
 
         try {
-            const response = await fetch('https://api.poxol.us/access-codes');
+            const response = await fetch(url + '/access-codes');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }

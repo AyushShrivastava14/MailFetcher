@@ -7,8 +7,8 @@ import jwt
 
 app = Flask(__name__)
 cors_origins = [
-    os.getenv("ORIGIN_1", "https://mailfetcher-frontend.onrender.com"),
-    os.getenv("ORIGIN_2", "https://www.poxol.us")
+    os.getenv("ORIGIN_1"),
+    os.getenv("ORIGIN_2")
 ]
 
 CORS(app, origins=cors_origins)

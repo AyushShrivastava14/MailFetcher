@@ -16,47 +16,68 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar />
-      <div className="container-fluid home_page px-0 d-flex justify-content-center align-items-center">
-        <Routes>
-          <Route path="/" element={<Login />} />
+      <div className="container-fluid home_page px-0">
+        <div style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", height: "100vh" }}>
+        <Navbar />
+        <video
+          src="/Netflix_bg_video.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="bg-vid"
+        ></video>
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: "100vh" }}
+          >
+            <Routes>
+              <Route path="/" element={<Login />} />
 
-          {role === "user" ? (
-            <>
-              <Route path="/user/options/emailreader" element={<EmailReader />} />
-              <Route path="/user/options" element={<SelectOptions />} />
-              <Route
-                path="/user"
-                element={<Navigate replace to="/user/options" />}
-              />
-              <Route path="/user/*" element={<NotFound />} />
-              <Route path="/admin" element={<AdminLogin />} />
-              <Route path="/admin/*" element={<NotFound />} />
-            </>
-          ) : (
-            <>
-              {role === "admin" ? (
+              {role === "user" ? (
                 <>
-                  <Route path="/admin/managecodes" element={<AdminOptions />} />
                   <Route
-                    path="/admin"
-                    element={<Navigate replace to="/admin/managecodes" />}
+                    path="/user/options/emailreader"
+                    element={<EmailReader />}
                   />
-                  <Route path="/admin/*" element={<NotFound />} />
-                  <Route path="/user" element={<Login />} />
+                  <Route path="/user/options" element={<SelectOptions />} />
+                  <Route
+                    path="/user"
+                    element={<Navigate replace to="/user/options" />}
+                  />
                   <Route path="/user/*" element={<NotFound />} />
+                  <Route path="/admin" element={<AdminLogin />} />
+                  <Route path="/admin/*" element={<NotFound />} />
                 </>
               ) : (
                 <>
-                  <Route path="/admin/*" element={<NotFound />} />
-                  <Route path="/user/*" element={<NotFound />} />
-                  <Route path="/user" element={<Login />} />
-                  <Route path="/admin" element={<AdminLogin />} />
+                  {role === "admin" ? (
+                    <>
+                      <Route
+                        path="/admin/managecodes"
+                        element={<AdminOptions />}
+                      />
+                      <Route
+                        path="/admin"
+                        element={<Navigate replace to="/admin/managecodes" />}
+                      />
+                      <Route path="/admin/*" element={<NotFound />} />
+                      <Route path="/user" element={<Login />} />
+                      <Route path="/user/*" element={<NotFound />} />
+                    </>
+                  ) : (
+                    <>
+                      <Route path="/admin/*" element={<NotFound />} />
+                      <Route path="/user/*" element={<NotFound />} />
+                      <Route path="/user" element={<Login />} />
+                      <Route path="/admin" element={<AdminLogin />} />
+                    </>
+                  )}
                 </>
               )}
-            </>
-          )}
-        </Routes>
+            </Routes>
+          </div>
+        </div>
       </div>
     </BrowserRouter>
   );

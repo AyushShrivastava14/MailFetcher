@@ -30,18 +30,15 @@ export default function AdminLogin() {
                 className="p-5"
                 style={{
                     width: "fit-content",
-                    backgroundColor: "black",
                     opacity: "0.85",
-                    border: "3px solid red",
-                    borderRadius: "10px",
-                    margin: "0 auto", // Center the form
+                    marginBottom: "10.5rem", // Center the form
                 }}
             >
                 <h1
-                    className="fw-bold mb-4 d-flex justify-content-center"
+                    className="fw-bold mb-3 d-flex justify-content-center heading-sm"
                     style={{ color: "white" }}
                 >
-                    Enter Email
+                    Admin Login
                 </h1>
                 <form
                     className="d-flex flex-column align-items-center"
@@ -53,14 +50,14 @@ export default function AdminLogin() {
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email"
                         required
-                        className="d-block p-3"
+                        className="d-block p-3 input-sm"
                         style={{
                             borderRadius: "5px",
                             border: "none",
                             borderStyle: "none",
                             width: "350px",
                             height: "50px",
-                            margin: "2rem",
+                            margin: "2rem 2rem 1rem 2rem",
                         }}
                     />
                     <input
@@ -69,7 +66,7 @@ export default function AdminLogin() {
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Password"
                         required
-                        className="d-block p-3"
+                        className="d-block p-3 input-sm"
                         style={{
                             borderRadius: "5px",
                             border: "none",
@@ -80,7 +77,7 @@ export default function AdminLogin() {
                         }}
                     />
                     <button
-                        className="fw-bold search_button"
+                        className="fw-bold button button-sm"
                         type="submit"
                         style={{
                             borderRadius: "5px",

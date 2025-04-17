@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-// import { useAccessCode } from '../context/AccessCodeContext';
 import { useRole } from '../context/RoleContext';
+import "./AdminButtons.css"
 
 export default function AdminOptions() {
     const [inputCode, setInputCode] = useState('');
@@ -40,21 +40,18 @@ export default function AdminOptions() {
             className="p-5"
             style={{
                 width: "fit-content",
-                backgroundColor: "black",
                 opacity: "0.85",
-                border: "3px solid red",
-                borderRadius: "10px",
-                margin: "0 auto", // Center the form
+                marginBottom: "11rem", // Center the form
             }}
         >
             <h1
-                className="fw-bold mb-4 d-flex justify-content-center"
+                className="fw-bold mb-2 d-flex justify-content-center"
                 style={{ color: "white" }}
             >
                 Manage Access Codes
             </h1>
             <form
-                // className="d-flex flex-column align-items-center"
+                className="d-flex flex-column align-items-center"
             >
                 <input
                     type="text"
@@ -62,7 +59,7 @@ export default function AdminOptions() {
                     onChange={(e) => setInputCode(e.target.value)}
                     placeholder="Enter Access Codes to Add/Remove"
                     required
-                    className="d-block p-3"
+                    className="d-block p-3 input-sm"
                     style={{
                         borderRadius: "5px",
                         border: "none",
@@ -72,8 +69,9 @@ export default function AdminOptions() {
                         margin: "2rem",
                     }}
                 />
+                <div className='d-flex mb-4 justify-content-between w-100'>
                 <button
-                    className="fw-bold search_button"
+                    className="fw-bold button admin-button-sm"
                     type="button"
                     onClick={addAccessCode}
                     style={{
@@ -90,7 +88,7 @@ export default function AdminOptions() {
                     Add
                 </button>
                 <button
-                    className="fw-bold search_button"
+                    className="fw-bold button admin-button-sm"
                     type="button"
                     onClick={removeAccessCode}
                     style={{
@@ -107,22 +105,23 @@ export default function AdminOptions() {
                     Remove
                 </button>
                 <button
-                    className="fw-bold search_button m-0"
+                    className="fw-bold button m-0 admin-button-sm"
                     type="button"
                     onClick={fetchAccessCodes}
                     style={{
                         borderRadius: "5px",
                         border: "none",
                         borderStyle: "none",
-                        width: "250px",
+                        width: "150px",
                         height: "50px",
                         backgroundColor: "red",
                         color: "white",
                         cursor: "pointer",
                     }}
-                >
-                    Show all Access Codes
+                    >
+                    Codes
                 </button>
+                    </div>
             </form>
         </div>
     );

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useRole } from '../context/RoleContext';
+import "./EmailReader.css"
 
 export default function Login() {
     const navigate = useNavigate();
@@ -34,18 +35,17 @@ export default function Login() {
             className="p-5"
             style={{
                 width: "fit-content",
-                backgroundColor: "black",
                 opacity: "0.85",
-                border: "3px solid red",
-                borderRadius: "10px",
+                marginBottom: "9.5rem"
             }}
         >
             <h1
-                className="fw-bold mb-4 d-flex justify-content-center"
+                className="fw-bold mb-4 d-flex justify-content-center heading-sm"
                 style={{ color: "white" }}
             >
-                Enter Access Code
+                Welcome to Netflix Manager
             </h1>
+            <p className='d-flex justify-content-center m-0'><span className="para-sm" style={{color: "white"}}>Please enter access code to use the services</span></p>
             <form
                 className="d-flex justify-content-center align-items-center"
                 onSubmit={handleSubmit}
@@ -56,17 +56,17 @@ export default function Login() {
                     onChange={(e) => setInputCode(e.target.value)}
                     placeholder="Access Code"
                     required
-                    className="d-block p-3"
+                    className="d-block p-3 input-sm"
                     style={{
                         borderRadius: "5px",
                         border: "none",
                         borderStyle: "none",
                         width: "350px",
                         height: "50px",
-                        margin: "2rem",
+                        margin: "2rem 0.7rem",
                     }}
                 />
-                <button className="fw-bold search_button" type="submit">
+                <button className="fw-bold button button-sm" type="submit">
                     Submit
                 </button>
             </form>

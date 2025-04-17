@@ -12,9 +12,9 @@ export default function SelectOptions() {
 
   return (
     <>
-      <div className="p-5 d-flex justify-content-center align-items-center flex-column">
+      <div className="p-5 d-flex justify-content-center align-items-center" style={{flexWrap: "wrap", marginBottom: "10.5rem"}}>
         <button
-          className="fw-bold search_button m-0"
+          className="fw-bold button mx-4 button-sm"
           type="submit"
           onClick={() => {
             changeSubject("Netflix: Your sign-in code");
@@ -24,7 +24,7 @@ export default function SelectOptions() {
           Sign-in Code
         </button>
         <button
-          className="fw-bold search_button"
+          className="fw-bold button mx-4 button-sm"
           style={{ margin: "2rem 0rem" }}
           type="submit"
         onClick={() => {
@@ -35,7 +35,7 @@ export default function SelectOptions() {
           Household
         </button>
         <button
-          className="fw-bold search_button m-0"
+          className="fw-bold button mx-4 button-sm"
           type="submit"
         onClick={() => {
             changeSubject("Complete your password reset request");

@@ -6,12 +6,11 @@ export default function NotFound() {
       <div
         className="p-4 d-flex justify-content-center align-items-center"
         style={{
-          backgroundColor: "black",
           color: "white",
-          borderRadius: "20px",
+          marginBottom: "12rem"
         }}
       >
-        <h1 style={{ letterSpacing: "0.5rem" }}>Not Found/Accessible</h1>
+        <h1 style={{ letterSpacing: "0.5rem", fontWeight: "bold", textAlign: "center" }}>Not Found/Accessible</h1>
       </div>
     </>
   );

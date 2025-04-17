@@ -7,7 +7,7 @@ function EmailReader() {
   const [emailData, setEmailData] = useState(null);
   const [error, setError] = useState(null);
   const [searchString, setSearchString] = useState("");
-  const {subject, url} = useRole();
+  const { subject, url } = useRole();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,21 +25,25 @@ function EmailReader() {
 
   return (
     <div
-      className="p-5"
+      className="d-flex flex-column justify-content-center"
       style={{
         width: "fit-content",
-        backgroundColor: "black",
+        height: "100vh",
         opacity: "0.85",
-        border: "3px solid red",
-        borderRadius: "10px",
+        marginBottom: emailData ? "0rem" : "10.5rem"
       }}
     >
       <h1
-        className="fw-bold mb-4 d-flex justify-content-center"
+        className="fw-bold mb-3 d-flex justify-content-center heading-sm"
         style={{ color: "white" }}
       >
         Enter Email
       </h1>
+      <p className="d-flex justify-content-center m-0">
+        <span className="para-sm" style={{ color: "white" }}>
+          Please wait for the response
+        </span>
+      </p>
       <form
         className="d-flex justify-content-center align-items-center"
         onSubmit={handleSubmit}
@@ -48,28 +52,31 @@ function EmailReader() {
           type="text"
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
-          placeholder="Enter search string"
+          placeholder="Email"
           required
-          className="d-block p-3"
+          className="d-block p-3 input-sm"
           style={{
             borderRadius: "5px",
             border: "none",
             borderStyle: "none",
-            width: "250px",
+            width: "350px",
             height: "50px",
-            margin: "2rem",
+            margin: "2rem 0.7rem",
           }}
         />
-        <button className="fw-bold search_button" type="submit">
+        <button className="fw-bold button button-sm m-0" type="submit">
           Search
         </button>
       </form>
-      {error && <div style={{ color: "white" }}>Error: {error}</div>}
+      {error && <div className="d-flex justify-content-center" style={{ color: "white" }}>Try sending again/ Try again later</div>}
       {!emailData && !error}
       {emailData && (
-        <div className="m-4 p-2" style={{ color: "white", textAlign: "justify" }}>
-          <h2>Content :-</h2>
-          <p style={{width: "600px", wordWrap: "break-word", overflowWrap: "break-word"}}>{emailData.Content}</p>
+        <div
+          className="m-4 p-2 d-flex flex-column align-items-center"
+          style={{ color: "white", textAlign: "justify" }}
+        >
+          <h2 className="mb-4 mt-2">Fetched Details</h2>
+          <p className="responsive-details">{emailData.Content}</p>
         </div>
       )}
     </div>

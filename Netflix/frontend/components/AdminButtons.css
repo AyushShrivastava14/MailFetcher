@@ -1,0 +1,6 @@
+@media (max-width: 570px) {
+    .admin-button-sm {
+      height: 40px !important;
+      width: 110px !important;
+    }
+}

@@ -1,6 +1,7 @@
 import React from "react";
 import logo from "../public/Netflix_logo.png";
 import { NavLink } from "react-router-dom";
+import "./Navbar.css"
 
 export default function Navbar() {
   return (
@@ -8,7 +9,7 @@ export default function Navbar() {
       <nav
         className="navbar navbar-expand-lg position-sticky top-0 z-1"
         data-bs-theme="dark"
-        style={{ backgroundColor: "black" }}
+        style={{ borderStyle: "none" }}
       >
         <div className="container" style={{ width: "100%" }}>
           {/* Logo */}
@@ -37,16 +38,16 @@ export default function Navbar() {
 
           {/* List */}
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav ms-auto mb-2 mb-lg-0" style={{fontSize: "1.1rem"}}>
+            <ul className="navbar-nav ms-auto mb-2 mb-lg-0" style={{fontSize: "1.3rem", color: "white"}}>
               <li className="nav-item mx-5">
-                <NavLink to="/user" className="nav-link">
-                  <span style={{fontWeight: "bolder"}}>Code</span>
+                <NavLink to="/user" className="nav-link active">
+                  <span>Home</span>
                 </NavLink>
               </li>
 
               <li className="nav-item mx-5">
                 <NavLink to="/admin" className="nav-link">
-                <span style={{fontWeight: "bolder"}}>Admin Login</span>
+                <span>Admin Login</span>
                 </NavLink>
               </li>
             </ul>

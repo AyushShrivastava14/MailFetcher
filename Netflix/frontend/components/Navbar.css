@@ -6,11 +6,18 @@
   --bs-navbar-brand-font-size: 1.5rem;
   height: fit-content;
   font-size: large;
-  background-color: #eeedeb;
+  background: transparent !important;
 }
 
 @media (min-width: 1400px) {
   .container {
     max-width: 1400px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .navbar-nav {
+    text-align: center;
+    width: 100%;
   }
 }

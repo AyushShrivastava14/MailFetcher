@@ -1,3 +1,5 @@
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import email
@@ -8,7 +10,8 @@ import jwt
 app = Flask(__name__)
 cors_origins = [
     os.getenv("ORIGIN_1"),
-    os.getenv("ORIGIN_2")
+    os.getenv("ORIGIN_2"),
+    # 'http://localhost:5173'
 ]
 
 CORS(app, origins=cors_origins)
@@ -19,8 +22,22 @@ email_address = os.getenv("FORWARD_MAIL")
 password = os.getenv("FORWARD_MAIL_PASS")
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-# Initial valid access codes
-valid_access_codes = ['6969']
+
+# MongoDB connection
+uri = os.getenv("MONGO_URI")
+client = MongoClient(uri, server_api=ServerApi('1'))
+
+# try:
+#     client.admin.command('ping')
+#     print("Pinged your deployment. You successfully connected to MongoDB!")
+# except Exception as e:
+#     print(e)
+
+# MongoDB collections
+db = client["access_codes"]
+codes_collection = db["codes"]
+
+
 
 @app.route('/get_last_email', methods=['GET'])
 def get_last_email():
@@ -70,28 +87,51 @@ def get_last_email():
     except Exception as e:
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
+
+
+# MongoDB-based access code management
 @app.route('/access-codes', methods=['GET'])
 def get_access_codes():
-    return jsonify(valid_access_codes)
+    document = codes_collection.find_one()
+    if document and 'valid_codes' in document:
+        return jsonify(document['valid_codes'])
+    return jsonify([])
 
 @app.route('/access-codes', methods=['POST'])
 def add_access_code():
     code = request.json.get('code')
-    if code and code not in valid_access_codes:
-        valid_access_codes.append(code)
-        return jsonify({"message": "Access code added successfully"})
+    if not code:
+        return jsonify({"message": "Invalid input"}), 400
+
+    document = codes_collection.find_one()
+    if document:
+        if code in document['valid_codes']:
+            return jsonify({"message": "Access code already exists"})
+        codes_collection.update_one(
+            {'_id': document['_id']},
+            {'$push': {'valid_codes': code}}
+        )
     else:
-        return jsonify({"message": "Access code already exists or invalid input"})
+        codes_collection.insert_one({'valid_codes': [code]})
+
+    return jsonify({"message": "Access code added successfully"})
 
 @app.route('/access-codes', methods=['DELETE'])
 def remove_access_code():
     code = request.json.get('code')
-    if code and code in valid_access_codes:
-        valid_access_codes.remove(code)
+    if not code:
+        return jsonify({"message": "Invalid input"}), 400
+
+    document = codes_collection.find_one()
+    if document and code in document['valid_codes']:
+        codes_collection.update_one(
+            {'_id': document['_id']},
+            {'$pull': {'valid_codes': code}}
+        )
         return jsonify({"message": "Access code removed successfully"})
     else:
-        return jsonify({"message": "Access code does not exist or invalid input"})
-    
+        return jsonify({"message": "Access code does not exist"})
+
 
 
 def generate_token(role):

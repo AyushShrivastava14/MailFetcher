@@ -18,6 +18,12 @@ export const RoleProvider = ({ children }) => {
     console.log(subject);
     setSubject(subject);
   }
+  const [subject2, setSubject2] = useState('');
+
+  const saveSubject2 = async (subject) => {
+    console.log(subject);
+    setSubject2(subject);
+  }
 
   const [token, setToken] = useState(() => {
     const savedToken = localStorage.getItem("token");
@@ -85,8 +91,10 @@ export const RoleProvider = ({ children }) => {
         url,
         token,
         subject,
+        subject2,
         saveRole,
-        saveSubject
+        saveSubject,
+        saveSubject2
       }}
     >
       {children}

@@ -7,13 +7,13 @@ function EmailReader() {
   const [emailData, setEmailData] = useState(null);
   const [error, setError] = useState(null);
   const [searchString, setSearchString] = useState("");
-  const { subject, url } = useRole();
+  const { subject, subject2, url } = useRole();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const response = await axios.get(url + "/get_last_email", {
-        params: { search: searchString, subject: subject },
+        params: { search: searchString, subject: subject, subject2: subject2 },
       });
       setEmailData(response.data);
       setError(null);

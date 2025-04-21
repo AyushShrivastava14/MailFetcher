@@ -4,10 +4,14 @@ import { useRole } from "../context/RoleContext";
 
 export default function SelectOptions() {
     const navigate = useNavigate();
-    const {saveSubject} = useRole();
+    const {saveSubject, saveSubject2} = useRole();
 
   const changeSubject = async (subject) => {
     saveSubject(subject);
+  };
+
+  const changeSubject2 = async (subject) => {
+    saveSubject2(subject);
   };
 
   return (
@@ -29,6 +33,7 @@ export default function SelectOptions() {
           type="submit"
         onClick={() => {
             changeSubject("Your temporary access code");
+            changeSubject2("Important: How to update your Netflix Household");
             navigate("/user/options/emailreader");
           }}
         >

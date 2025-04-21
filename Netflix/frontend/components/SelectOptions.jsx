@@ -22,6 +22,7 @@ export default function SelectOptions() {
           type="submit"
           onClick={() => {
             changeSubject("Netflix: Your sign-in code");
+            changeSubject2(null);
             navigate("/user/options/emailreader");
           }}
         >
@@ -44,6 +45,7 @@ export default function SelectOptions() {
           type="submit"
         onClick={() => {
             changeSubject("Complete your password reset request");
+            changeSubject2(null);
             navigate("/user/options/emailreader");
           }}
         >

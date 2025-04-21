@@ -39,58 +39,10 @@ codes_collection = db["codes"]
 
 
 
-# @app.route('/get_last_email', methods=['GET'])
-# def get_last_email():
-#     search_string = request.args.get('search', default="", type=str)
-#     subject = request.args.get('subject', default="", type=str)
-
-#     if not subject or not search_string:
-#         return jsonify({"error": "Both 'subject' and 'search' parameters are required"}), 400
-
-#     try:
-#         imap = imaplib.IMAP4_SSL(imap_server)
-#         imap.login(email_address, password)
-#         imap.select("Inbox")
-
-#         search_criteria = f'(SUBJECT "{subject}" TO "{search_string}")'
-#         _, msgnums = imap.search(None, search_criteria)
-
-#         email_ids = list(map(int, msgnums[0].split()))
-
-#         if email_ids:
-#             last_email = email_ids[-1]
-#             _, data = imap.fetch(str(last_email), "(RFC822)")
-#             message = email.message_from_bytes(data[0][1])
-
-#             email_data = {
-#                 "From": message.get('From'),
-#                 "To": message.get('To'),
-#                 "Date": message.get('Date'),
-#                 "Subject": message.get('Subject'),
-#                 "Content": ""
-#             }
-
-#             for part in message.walk():
-#                 if part.get_content_type() == "text/plain":
-#                     email_data["Content"] = part.get_payload(decode=True).decode()
-
-#             imap.close()
-#             imap.logout()
-#             return jsonify(email_data)
-#         else:
-#             imap.close()
-#             imap.logout()
-#             return jsonify({"error": "No emails found"}), 404
-
-#     except imaplib.IMAP4.error as e:
-#         return jsonify({"error": f"IMAP error: {str(e)}"}), 500
-#     except Exception as e:
-#         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
-
 @app.route('/get_last_email', methods=['GET'])
 def get_last_email():
     search_string = request.args.get('search', default="", type=str)
-    subject1 = request.args.get('subject1', default="", type=str)
+    subject1 = request.args.get('subject', default="", type=str)
     subject2 = request.args.get('subject2', default="", type=str)
 
     if not search_string or not (subject1 or subject2):
@@ -136,7 +88,7 @@ def get_last_email():
                     # email_data["Content"] = part.get_payload(decode=True).decode()
                     content = part.get_payload(decode=True).decode()
                     words = content.split()
-                    limited_content = " ".join(words[:100])
+                    limited_content = " ".join(words[:200])
                     email_data["Content"] = limited_content
 
             imap.close()

@@ -33,7 +33,7 @@ export default function SelectOptions() {
           type="submit"
         onClick={() => {
             changeSubject("Your temporary access code");
-            changeSubject2("Important: How to update your Netflix Household");
+            changeSubject2("Important: how to update your Netflix household");
             navigate("/user/options/emailreader");
           }}
         >

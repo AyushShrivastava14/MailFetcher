@@ -1,17 +1,17 @@
-import { BallTriangle } from "react-loader-spinner";
+import React from "react";
+import "./Loading.css";
 
 export default function Loading() {
-  return <>
-  <BallTriangle
-    height={60}
-    width={60}
-    radius={5}
-    color="white"
-    ariaLabel="ball-triangle-loading"
-    wrapperStyle={{}}
-    wrapperClass=""
-    visible={true}
-  />
-  <h5>Please Wait...</h5>
-  </>
+  return (
+    <>
+      <div className="pulse-loader-wrapper">
+      <div className="pulse-loader mb-4">
+        <div className="dot" />
+        <div className="dot" />
+        <div className="dot" />
+      </div>
+      <h5 className="loader-text">Please Wait...</h5>
+    </div>
+    </>
+  );
 }

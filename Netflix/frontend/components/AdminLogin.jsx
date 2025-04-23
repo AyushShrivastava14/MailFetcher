@@ -21,12 +21,13 @@ export default function AdminLogin() {
       if (email === adminEmail && password === adminPass) {
         saveRole("admin");
         navigate("/admin/managecodes");
+        setLoading(false);
       } else {
+        setLoading(false);
         setTimeout(() => {
             alert("Invalid email or password");
           }, 100);
       }
-      setLoading(false);
     }, 3000);
   };
 

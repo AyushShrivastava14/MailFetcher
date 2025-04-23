@@ -25,12 +25,13 @@ export default function Login() {
                 if (validAccessCodes.includes(inputCode)) {
                     saveRole('user');
                     navigate('/user/options');
+                    setLoading(false);
                 } else {
+                    setLoading(false);
                     setTimeout(() => {
                         alert("Invalid Access Code");
                     }, 100); 
                 }
-                setLoading(false);
             }, 2000); 
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);

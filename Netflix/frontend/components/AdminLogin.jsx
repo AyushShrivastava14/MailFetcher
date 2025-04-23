@@ -19,15 +19,14 @@ export default function AdminLogin() {
 
     setTimeout(() => {
       if (email === adminEmail && password === adminPass) {
-        saveRole("admin");
+        await saveRole("admin");
         navigate("/admin/managecodes");
-        setLoading(false);
       } else {
-        setLoading(false);
         setTimeout(() => {
-            alert("Invalid email or password");
-          }, 100);
+          alert("Invalid email or password");
+        }, 100);
       }
+      setLoading(false);
     }, 3000);
   };
 

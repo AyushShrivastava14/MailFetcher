@@ -21,7 +21,7 @@ export default function Login() {
             }
             const validAccessCodes = await response.json();
     
-            setTimeout(() => {
+            setTimeout(async () => {
                 if (validAccessCodes.includes(inputCode)) {
                     await saveRole('user');
                     navigate('/user/options');

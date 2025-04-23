@@ -17,7 +17,7 @@ export default function AdminLogin() {
     event.preventDefault();
     setLoading(true);
 
-    setTimeout(() => {
+    setTimeout(async () => {
       if (email === adminEmail && password === adminPass) {
         await saveRole("admin");
         navigate("/admin/managecodes");

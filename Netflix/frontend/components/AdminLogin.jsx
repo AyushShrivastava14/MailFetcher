@@ -27,7 +27,7 @@ export default function AdminLogin() {
         }, 100);
       }
       setLoading(false);
-    }, 3000);
+    }, 500);
   };
 
   return (

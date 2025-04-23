@@ -31,7 +31,7 @@ export default function Login() {
                     }, 100); 
                 }
                 setLoading(false);
-            }, 2000); 
+            }, 500); 
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
         }

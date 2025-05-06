@@ -82,7 +82,6 @@ export default function AdminLogin() {
                 border: "none",
                 width: "150px",
                 height: "50px",
-                backgroundColor: "red",
                 color: "white",
                 cursor: "pointer",
               }}

@@ -80,7 +80,6 @@ export default function AdminOptions() {
                         borderStyle: "none",
                         width: "150px",
                         height: "50px",
-                        backgroundColor: "red",
                         color: "white",
                         cursor: "pointer",
                     }}
@@ -97,7 +96,6 @@ export default function AdminOptions() {
                         borderStyle: "none",
                         width: "150px",
                         height: "50px",
-                        backgroundColor: "red",
                         color: "white",
                         cursor: "pointer",
                     }}
@@ -114,7 +112,6 @@ export default function AdminOptions() {
                         borderStyle: "none",
                         width: "150px",
                         height: "50px",
-                        backgroundColor: "red",
                         color: "white",
                         cursor: "pointer",
                     }}

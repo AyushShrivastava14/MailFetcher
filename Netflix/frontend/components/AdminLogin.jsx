@@ -1,23 +1,20 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRole } from "../context/RoleContext";
-import Loading from "./Loading";
+
 
 const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
 const adminPass = import.meta.env.VITE_ADMIN_PASS;
+
 
 export default function AdminLogin() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const { saveRole } = useRole();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
-
-    setTimeout(async () => {
       if (email === adminEmail && password === adminPass) {
         await saveRole("admin");
         navigate("/admin/managecodes");
@@ -26,8 +23,6 @@ export default function AdminLogin() {
           alert("Invalid email or password");
         }, 100);
       }
-      setLoading(false);
-    }, 0);
   };
 
   return (
@@ -39,15 +34,6 @@ export default function AdminLogin() {
         marginBottom: "10.5rem",
       }}
     >
-      {loading ? (
-        <div
-          className="d-flex justify-content-center align-items-center"
-          style={{ height: "100vh" }}
-        >
-          <Loading />
-        </div>
-      ) : (
-        <>
           <h1
             className="fw-bold mb-3 d-flex justify-content-center heading-sm"
             style={{ color: "white" }}
@@ -104,8 +90,6 @@ export default function AdminLogin() {
               Login
             </button>
           </form>
-        </>
-      )}
     </div>
   );
 }

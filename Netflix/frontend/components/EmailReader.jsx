@@ -68,7 +68,7 @@ function EmailReader() {
           Search
         </button>
       </form>
-      {error && <div className="d-flex justify-content-center" style={{ color: "white" }}>Try sending again/ Try again later</div>}
+      {error && <div className="d-flex justify-content-center mt-3" style={{ color: "white" }}>Not Found or Invalid Input</div>}
       {!emailData && !error}
       {emailData && (
         <div

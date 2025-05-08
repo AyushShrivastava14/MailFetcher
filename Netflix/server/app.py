@@ -11,7 +11,7 @@ app = Flask(__name__)
 cors_origins = [
     os.getenv("ORIGIN_1"),
     os.getenv("ORIGIN_2"),
-    # 'http://localhost:5173'
+    'http://localhost:5173'
 ]
 
 CORS(app, origins=cors_origins)
@@ -20,7 +20,7 @@ CORS(app, origins=cors_origins)
 imap_server = "imap.gmail.com"
 email_address = os.getenv("FORWARD_MAIL")
 password = os.getenv("FORWARD_MAIL_PASS")
-SECRET_KEY = os.getenv("SECRET_KEY")
+# SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 # MongoDB connection
@@ -47,6 +47,20 @@ def get_last_email():
 
     if not search_string or not (subject1 or subject2):
         return jsonify({"error": "At least one subject and the 'search' parameter are required"}), 400
+    
+
+    blocked_domains = {
+        "autofusionx.com",
+        "legitanand.com",
+        "poxol.us",
+        "hotscar.com",
+        "gilnate.com",
+        "hybridpro.fun"
+    }
+
+    if search_string in blocked_domains:
+        return jsonify({"error": "This domain is blocked"}), 403
+
 
     try:
         imap = imaplib.IMAP4_SSL(imap_server)
@@ -151,41 +165,41 @@ def remove_access_code():
 
 
 
-def generate_token(role):
-    payload = {
-        "role": role
-    }
-    token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
-    return token
+# def generate_token(role):
+#     payload = {
+#         "role": role
+#     }
+#     token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+#     return token
 
-def verify_token(token):
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-        return True
-    except jwt.ExpiredSignatureError:
-        return False
-    except jwt.InvalidTokenError:
-        return False
+# def verify_token(token):
+#     try:
+#         payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+#         return True
+#     except jwt.ExpiredSignatureError:
+#         return False
+#     except jwt.InvalidTokenError:
+#         return False
     
 
-@app.route('/generate-token', methods=['POST'])
-def generate_token_route():
-    role = request.json.get('role')
-    if not role:
-        return jsonify({"error": "Email is required"}), 400
-    token = generate_token(role)
-    return jsonify({"token": token})
+# @app.route('/generate-token', methods=['POST'])
+# def generate_token_route():
+#     role = request.json.get('role')
+#     if not role:
+#         return jsonify({"error": "Email is required"}), 400
+#     token = generate_token(role)
+#     return jsonify({"token": token})
 
-@app.route('/verify-token', methods=['POST'])
-def verify_token_route():
-    token = request.json.get('token')
-    if not token:
-        return jsonify({"error": "Token is required"}), 400
-    is_valid = verify_token(token)
-    if is_valid:
-        return jsonify({"message": "valid"})
-    else:
-        return jsonify({"message": "Token is invalid or expired"}), 401
+# @app.route('/verify-token', methods=['POST'])
+# def verify_token_route():
+#     token = request.json.get('token')
+#     if not token:
+#         return jsonify({"error": "Token is required"}), 400
+#     is_valid = verify_token(token)
+#     if is_valid:
+#         return jsonify({"message": "valid"})
+#     else:
+#         return jsonify({"message": "Token is invalid or expired"}), 401
 
 
 @app.route('/')

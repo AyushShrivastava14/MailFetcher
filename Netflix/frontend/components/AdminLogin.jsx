@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useRole } from "../context/RoleContext";
 
 
-const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
-const adminPass = import.meta.env.VITE_ADMIN_PASS;
+// const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
+// const adminPass = import.meta.env.VITE_ADMIN_PASS;
+const adminEmail = "chimmy@admin.com";
+const adminPass = "chimmy001";
 
 
 export default function AdminLogin() {
@@ -13,10 +15,10 @@ export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const { saveRole } = useRole();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
       if (email === adminEmail && password === adminPass) {
-        await saveRole("admin");
+        saveRole("admin");
         navigate("/admin/managecodes");
       } else {
         setTimeout(() => {

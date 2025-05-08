@@ -15,7 +15,7 @@ const SelectOptions = lazy(() => import("../components/SelectOptions"));
 
 
 function App() {
-  const { role, token } = useRole();
+  const { role } = useRole();
 
   return (
     <BrowserRouter>
@@ -28,6 +28,7 @@ function App() {
             muted
             loop
             playsInline
+            preload="auto"
             className="bg-vid"
           ></video>
           <div

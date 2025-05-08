@@ -3,10 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useRole } from "../context/RoleContext";
 
 
-// const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
-// const adminPass = import.meta.env.VITE_ADMIN_PASS;
-const adminEmail = "chimmy@admin.com";
-const adminPass = "chimmy001";
+const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
+const adminPass = import.meta.env.VITE_ADMIN_PASS;
 
 
 export default function AdminLogin() {

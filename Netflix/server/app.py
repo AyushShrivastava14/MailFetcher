@@ -58,7 +58,7 @@ def get_last_email():
         "hybridpro.fun"
     }
 
-    if search_string in blocked_domains:
+    if search_string.lower() in blocked_domains:
         return jsonify({"error": "This domain is blocked"}), 403
 
 

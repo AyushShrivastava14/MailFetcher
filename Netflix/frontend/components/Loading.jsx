@@ -6,7 +6,7 @@ export default function Loading() {
     <>
       <div
         className="d-flex justify-content-center align-items-center"
-        style={{ height: "80vh" }}
+        style={{ height: "75vh" }}
       >
         <div className="pulse-loader-wrapper">
           <div className="pulse-loader mb-4">

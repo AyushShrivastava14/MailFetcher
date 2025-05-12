@@ -5,7 +5,7 @@ from flask_cors import CORS
 import email
 import imaplib
 import os
-import jwt
+import re
 
 app = Flask(__name__)
 cors_origins = [
@@ -90,20 +90,54 @@ def get_last_email():
             message = email.message_from_bytes(data[0][1])
 
             email_data = {
-                "From": message.get('From'),
-                "To": message.get('To'),
-                "Date": message.get('Date'),
-                "Subject": message.get('Subject'),
-                "Content": ""
+                # "From": message.get('From'),
+                # "To": message.get('To'),
+                # "Date": message.get('Date'),
+                # "Subject": message.get('Subject'),
+                "Content": "",
+                "Link": False
             }
 
             for part in message.walk():
                 if part.get_content_type() == "text/plain":
-                    # email_data["Content"] = part.get_payload(decode=True).decode()
                     content = part.get_payload(decode=True).decode()
                     words = content.split()
-                    limited_content = " ".join(words[:200])
-                    email_data["Content"] = limited_content
+
+                    if(subject1 == "Complete your password reset request"):
+                        # Regex to find Netflix password reset links
+                        reset_link_match = re.search(r'https://www\.netflix\.com/password\?[^ \n\r<>"]+', content)
+
+                        if reset_link_match:
+                            reset_link = reset_link_match.group(0)
+                            email_data["Content"] = reset_link
+                            email_data["Link"] = True
+                        else:
+                            email_data["Content"] = "Reset link not found"
+                    
+                    elif subject1 == "Netflix: Your sign-in code":
+                        # Extract the 4-6 digit sign-in code
+                        code_match = re.search(r'\b\d{4,6}\b', content)
+                        if code_match:
+                            email_data["Content"] = code_match.group(0)
+                        else:
+                            email_data["Content"] = "Code not found"
+                        email_data["Link"] = False
+
+                    else:
+                        # Regex to find Netflix household update link
+                        household_link_match = re.search(
+                            r'https://www\.netflix\.com/account/update-primary-location\?[^ \n\r<>"]+',
+                            content
+                        )
+
+                        if household_link_match:
+                            household_link = household_link_match.group(0)
+                            email_data["Content"] = household_link
+                            email_data["Link"] = True
+                        else:
+                            email_data["Content"] = "Household update link not found"
+
+
 
             imap.close()
             imap.logout()

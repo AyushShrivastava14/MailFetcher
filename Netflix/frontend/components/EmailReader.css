@@ -15,22 +15,29 @@
     flex-direction: column;
   }
   .responsive-details {
-    height: 300px !important;
-    width: 400px !important;
+    height: 40px !important;
+    width: fit-content;
+    font-size: 1.5rem;
+    font-weight: bold;
   }
 }
 
 /* Medium screens */
 @media (max-width: 1200px) {
   .responsive-details {
-    height: 340px;
-    width: 600px;
+    height: 50px;
+    width: fit-content;
+    font-size: 1.5rem;
+    font-weight: bold;
   }
 }
 
 /* Large screens */
 @media (min-width: 1200px) {
   .responsive-details {
-    width: 1200px;
+    height: 70px;
+    width: fit-content;
+    font-size: 1.5rem;
+    font-weight: bold;
   }
 }

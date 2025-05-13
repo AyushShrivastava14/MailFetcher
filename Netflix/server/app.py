@@ -90,10 +90,6 @@ def get_last_email():
             message = email.message_from_bytes(data[0][1])
 
             email_data = {
-                # "From": message.get('From'),
-                # "To": message.get('To'),
-                # "Date": message.get('Date'),
-                # "Subject": message.get('Subject'),
                 "Content": "",
                 "Link": False
             }
@@ -101,18 +97,17 @@ def get_last_email():
             for part in message.walk():
                 if part.get_content_type() == "text/plain":
                     content = part.get_payload(decode=True).decode()
-                    words = content.split()
 
                     if(subject1 == "Complete your password reset request"):
                         # Regex to find Netflix password reset links
                         reset_link_match = re.search(r'https://www\.netflix\.com/password\?[^ \n\r<>"]+', content)
 
                         if reset_link_match:
-                            reset_link = reset_link_match.group(0)
+                            reset_link = reset_link_match.group(0).rstrip(']>')
                             email_data["Content"] = reset_link
-                            email_data["Link"] = True
                         else:
                             email_data["Content"] = "Reset link not found"
+                        email_data["Link"] = True
                     
                     elif subject1 == "Netflix: Your sign-in code":
                         # Extract the 4-6 digit sign-in code
@@ -131,11 +126,11 @@ def get_last_email():
                         )
 
                         if household_link_match:
-                            household_link = household_link_match.group(0)
+                            household_link = household_link_match.group(0).rstrip(']>')
                             email_data["Content"] = household_link
-                            email_data["Link"] = True
                         else:
                             email_data["Content"] = "Household update link not found"
+                        email_data["Link"] = True
 
 
 
@@ -196,44 +191,6 @@ def remove_access_code():
         return jsonify({"message": "Access code removed successfully"})
     else:
         return jsonify({"message": "Access code does not exist"})
-
-
-
-# def generate_token(role):
-#     payload = {
-#         "role": role
-#     }
-#     token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
-#     return token
-
-# def verify_token(token):
-#     try:
-#         payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-#         return True
-#     except jwt.ExpiredSignatureError:
-#         return False
-#     except jwt.InvalidTokenError:
-#         return False
-    
-
-# @app.route('/generate-token', methods=['POST'])
-# def generate_token_route():
-#     role = request.json.get('role')
-#     if not role:
-#         return jsonify({"error": "Email is required"}), 400
-#     token = generate_token(role)
-#     return jsonify({"token": token})
-
-# @app.route('/verify-token', methods=['POST'])
-# def verify_token_route():
-#     token = request.json.get('token')
-#     if not token:
-#         return jsonify({"error": "Token is required"}), 400
-#     is_valid = verify_token(token)
-#     if is_valid:
-#         return jsonify({"message": "valid"})
-#     else:
-#         return jsonify({"message": "Token is invalid or expired"}), 401
 
 
 @app.route('/')

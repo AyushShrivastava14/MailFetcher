@@ -1,9 +1,12 @@
 import React from "react";
 import logo from "../public/Netflix_logo.png";
 import { NavLink } from "react-router-dom";
+import { useRole } from "../context/RoleContext";
 import "./Navbar.css";
 
 export default function Navbar() {
+  const { role } = useRole();
+
   return (
     <>
       <nav
@@ -44,21 +47,29 @@ export default function Navbar() {
             >
               <li className="nav-item mx-5">
                 <NavLink
-                  to="/user"
-                  className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
+                  to="/"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active" : "nav-link"
+                  }
                 >
                   <span>Home</span>
                 </NavLink>
               </li>
-
-              <li className="nav-item mx-5">
-                <NavLink
-                  to="/admin"
-                  className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-                >
-                  <span>Admin Login</span>
-                </NavLink>
-              </li>
+              {role == "user" ? (
+                <li className="nav-item mx-5">
+                  <NavLink
+                    onClick={() => saveRole("")}
+                    to="/"
+                    className={({ isActive }) =>
+                      isActive ? "nav-link active" : "nav-link"
+                    }
+                  >
+                    <span>Logout</span>
+                  </NavLink>
+                </li>
+              ) : (
+                <span></span>
+              )}
             </ul>
           </div>
         </div>

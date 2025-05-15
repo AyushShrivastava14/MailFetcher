@@ -8,14 +8,12 @@ import Loading from "../components/Loading";
 const EmailReader = lazy(() => import("../components/EmailReader"));
 const Navbar = lazy(() => import("../components/Navbar"));
 const Login = lazy(() => import("../components/Login"));
-const AdminLogin = lazy(() => import("../components/AdminLogin"));
-const AdminOptions = lazy(() => import("../components/AdminOptions"));
 const NotFound = lazy(() => import("../components/NotFound"));
 const SelectOptions = lazy(() => import("../components/SelectOptions"));
-
+const SignInCodeAccess = lazy(() => import("../components/SignInCodeAccess"));
 
 function App() {
-  const { role } = useRole();
+  const { role, access } = useRole();
 
   return (
     <BrowserRouter>
@@ -37,47 +35,39 @@ function App() {
           >
             <Suspense fallback={<Loading />}>
               <Routes>
-                <Route path="/" element={<Login />} />
-
                 {role === "user" ? (
                   <>
                     <Route
-                      path="/user/options/emailreader"
+                      path="/options/emailreader"
                       element={<EmailReader />}
                     />
-                    <Route path="/user/options" element={<SelectOptions />} />
                     <Route
-                      path="/user"
-                      element={<Navigate replace to="/user/options" />}
+                      path="/options/code"
+                      element={<SignInCodeAccess />}
                     />
-                    <Route path="/user/*" element={<NotFound />} />
-                    <Route path="/admin" element={<AdminLogin />} />
-                    <Route path="/admin/*" element={<NotFound />} />
+
+                    {access ? (
+                      <Route
+                        path="/options/code/emailreader"
+                        element={<EmailReader />}
+                      />
+                    ) : (
+                      <Route
+                        path="/options/code/emailreader"
+                        element={<NotFound />}
+                      />
+                    )}
+                    <Route path="/options" element={<SelectOptions />} />
+                    <Route
+                      path="/"
+                      element={<Navigate replace to="/options" />}
+                    />
+                    <Route path="/*" element={<NotFound />} />
                   </>
                 ) : (
                   <>
-                    {role === "admin" ? (
-                      <>
-                        <Route
-                          path="/admin/managecodes"
-                          element={<AdminOptions />}
-                        />
-                        <Route
-                          path="/admin"
-                          element={<Navigate replace to="/admin/managecodes" />}
-                        />
-                        <Route path="/admin/*" element={<NotFound />} />
-                        <Route path="/user" element={<Login />} />
-                        <Route path="/user/*" element={<NotFound />} />
-                      </>
-                    ) : (
-                      <>
-                        <Route path="/admin/*" element={<NotFound />} />
-                        <Route path="/user/*" element={<NotFound />} />
-                        <Route path="/user" element={<Login />} />
-                        <Route path="/admin" element={<AdminLogin />} />
-                      </>
-                    )}
+                    <Route path="/" element={<Login />} />
+                    <Route path="/*" element={<NotFound />} />
                   </>
                 )}
               </Routes>

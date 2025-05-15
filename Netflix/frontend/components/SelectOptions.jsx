@@ -23,7 +23,7 @@ export default function SelectOptions() {
           onClick={() => {
             changeSubject("Netflix: Your sign-in code");
             changeSubject2(null);
-            navigate("/user/options/emailreader");
+            navigate("/options/code");
           }}
         >
           Sign-in Code
@@ -35,7 +35,7 @@ export default function SelectOptions() {
         onClick={() => {
             changeSubject("Your temporary access code");
             changeSubject2("Important: how to update your Netflix household");
-            navigate("/user/options/emailreader");
+            navigate("/options/emailreader");
           }}
         >
           Household
@@ -46,7 +46,7 @@ export default function SelectOptions() {
         onClick={() => {
             changeSubject("Complete your password reset request");
             changeSubject2(null);
-            navigate("/user/options/emailreader");
+            navigate("/options/emailreader");
           }}
         >
           Reset Link

@@ -1,10 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "./EmailReader.css";
 import { useRole } from "../context/RoleContext";
 
 function EmailReader() {
-  const buttonRef = useRef(null);
   const [emailData, setEmailData] = useState(null);
   const [error, setError] = useState(null);
   const [searchString, setSearchString] = useState("");
@@ -69,13 +68,6 @@ function EmailReader() {
         <button
           className="fw-bold button button-sm m-0"
           type="submit"
-          onTouchEnd={() => {
-            // Reset the style on mobile after click
-            if (buttonRef.current) {
-              buttonRef.current.style.backgroundColor = "rgb(198, 103, 103)";
-              buttonRef.current.style.transform = "none";
-            }
-          }}
         >
           Search
         </button>

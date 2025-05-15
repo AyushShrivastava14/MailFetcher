@@ -20,7 +20,6 @@ CORS(app, origins=cors_origins)
 imap_server = "imap.gmail.com"
 email_address = os.getenv("FORWARD_MAIL")
 password = os.getenv("FORWARD_MAIL_PASS")
-# SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 # MongoDB connection
@@ -157,41 +156,17 @@ def get_access_codes():
         return jsonify(document['valid_codes'])
     return jsonify([])
 
-@app.route('/access-codes', methods=['POST'])
-def add_access_code():
-    code = request.json.get('code')
-    if not code:
-        return jsonify({"message": "Invalid input"}), 400
 
+
+# MongoDB-based SIGN-IN access code management
+@app.route('/signincodes', methods=['GET'])
+def get_signin_codes():
     document = codes_collection.find_one()
-    if document:
-        if code in document['valid_codes']:
-            return jsonify({"message": "Access code already exists"})
-        codes_collection.update_one(
-            {'_id': document['_id']},
-            {'$push': {'valid_codes': code}}
-        )
-    else:
-        codes_collection.insert_one({'valid_codes': [code]})
+    if document and 'signin-codes' in document:
+        return jsonify(document['signin-codes'])
+    return jsonify([])
 
-    return jsonify({"message": "Access code added successfully"})
-
-@app.route('/access-codes', methods=['DELETE'])
-def remove_access_code():
-    code = request.json.get('code')
-    if not code:
-        return jsonify({"message": "Invalid input"}), 400
-
-    document = codes_collection.find_one()
-    if document and code in document['valid_codes']:
-        codes_collection.update_one(
-            {'_id': document['_id']},
-            {'$pull': {'valid_codes': code}}
-        )
-        return jsonify({"message": "Access code removed successfully"})
-    else:
-        return jsonify({"message": "Access code does not exist"})
-
+    
 
 @app.route('/')
 def home():

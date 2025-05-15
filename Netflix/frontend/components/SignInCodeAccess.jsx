@@ -6,13 +6,13 @@ import "./EmailReader.css";
 export default function Login() {
   const navigate = useNavigate();
   const [inputCode, setInputCode] = useState("");
-  const { saveRole, url } = useRole();
+  const { saveAccess, url } = useRole();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await fetch(url + "/access-codes");
+      const response = await fetch(url + "/signincodes");
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -20,8 +20,8 @@ export default function Login() {
       const validAccessCodes = await response.json();
 
       if (validAccessCodes.includes(inputCode)) {
-        saveRole("user");
-        navigate("/options");
+        saveAccess();
+        navigate("/options/code/emailreader");
       } else {
         setTimeout(() => {
           alert("Invalid Access Code");
@@ -45,7 +45,7 @@ export default function Login() {
         className="fw-bold mb-4 d-flex justify-content-center heading-sm"
         style={{ color: "white" }}
       >
-        Welcome to Netflix Manager
+        Enter Sign-In Access Code
       </h1>
       <p className="d-flex justify-content-center m-0">
         <span className="para-sm" style={{ color: "white" }}>
@@ -60,7 +60,7 @@ export default function Login() {
           type="text"
           value={inputCode}
           onChange={(e) => setInputCode(e.target.value)}
-          placeholder="Access Code"
+          placeholder="Sign-In Access Code"
           required
           className="d-block p-3 input-sm"
           style={{

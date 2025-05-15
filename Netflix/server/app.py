@@ -157,6 +157,43 @@ def get_access_codes():
     return jsonify([])
 
 
+@app.route('/access-codes', methods=['POST'])
+def add_access_code():
+    code = request.json.get('code')
+    if not code:
+        return jsonify({"message": "Invalid input"}), 400
+
+    document = codes_collection.find_one()
+    if document:
+        if code in document['valid_codes']:
+            return jsonify({"message": "Access code already exists"})
+        codes_collection.update_one(
+            {'_id': document['_id']},
+            {'$push': {'valid_codes': code}}
+        )
+    else:
+        codes_collection.insert_one({'valid_codes': [code]})
+
+    return jsonify({"message": "Access code added successfully"})
+
+
+@app.route('/access-codes', methods=['DELETE'])
+def remove_access_code():
+    code = request.json.get('code')
+    if not code:
+        return jsonify({"message": "Invalid input"}), 400
+
+    document = codes_collection.find_one()
+    if document and code in document['valid_codes']:
+        codes_collection.update_one(
+            {'_id': document['_id']},
+            {'$pull': {'valid_codes': code}}
+        )
+        return jsonify({"message": "Access code removed successfully"})
+    else:
+        return jsonify({"message": "Access code does not exist"})
+    
+
 
 # MongoDB-based SIGN-IN access code management
 @app.route('/signincodes', methods=['GET'])
@@ -165,6 +202,43 @@ def get_signin_codes():
     if document and 'signin-codes' in document:
         return jsonify(document['signin-codes'])
     return jsonify([])
+
+
+@app.route('/signincodes', methods=['POST'])
+def add_signin_code():
+    code = request.json.get('code')
+    if not code:
+        return jsonify({"message": "Invalid input"}), 400
+
+    document = codes_collection.find_one()
+    if document:
+        if code in document['signin-codes']:
+            return jsonify({"message": "Sign-In code already exists"})
+        codes_collection.update_one(
+            {'_id': document['_id']},
+            {'$push': {'signin-codes': code}}
+        )
+    else:
+        codes_collection.insert_one({'signin-codes': [code]})
+
+    return jsonify({"message": "Sign-In code added successfully"})
+
+
+@app.route('/signincodes', methods=['DELETE'])
+def remove_signin_code():
+    code = request.json.get('code')
+    if not code:
+        return jsonify({"message": "Invalid input"}), 400
+
+    document = codes_collection.find_one()
+    if document and code in document['signin-codes']:
+        codes_collection.update_one(
+            {'_id': document['_id']},
+            {'$pull': {'signin-codes': code}}
+        )
+        return jsonify({"message": "Sign-In code removed successfully"})
+    else:
+        return jsonify({"message": "Sign-In code does not exist"})
 
     
 

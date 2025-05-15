@@ -11,6 +11,7 @@ app = Flask(__name__)
 cors_origins = [
     os.getenv("ORIGIN_1"),
     os.getenv("ORIGIN_2"),
+    os.getenv("ORIGIN_3"),
     # 'http://localhost:5173'
 ]
 

@@ -8,14 +8,13 @@ import os
 import re
 
 app = Flask(__name__)
-# cors_origins = [
-#     os.getenv("ORIGIN_1"),
-#     os.getenv("ORIGIN_2"),
-#     os.getenv("ORIGIN_3"),
-# ]
+cors_origins = [
+    os.getenv("ORIGIN_1"),
+    os.getenv("ORIGIN_2"),
+    os.getenv("ORIGIN_3"),
+]
 
-# CORS(app, origins=cors_origins)
-CORS(app)
+CORS(app, origins=cors_origins)
 
 
 imap_server = "imap.gmail.com"

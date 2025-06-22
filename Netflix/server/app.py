@@ -12,10 +12,10 @@ cors_origins = [
     os.getenv("ORIGIN_1"),
     os.getenv("ORIGIN_2"),
     os.getenv("ORIGIN_3"),
-    # 'http://localhost:5173'
 ]
 
-CORS(app, origins=cors_origins)
+# CORS(app, origins=cors_origins)
+CORS(app, resources={r"/*": {"origins": cors_origins}}, supports_credentials=True)
 
 
 imap_server = "imap.gmail.com"

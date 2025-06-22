@@ -151,7 +151,6 @@ def get_last_email():
 # MongoDB-based access code management
 @app.route('/access-codes', methods=['GET'])
 def get_access_codes():
-    print("CORS origins loaded:", cors_origins)
     document = codes_collection.find_one()
     if document and 'valid_codes' in document:
         return jsonify(document['valid_codes'])

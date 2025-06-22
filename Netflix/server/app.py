@@ -16,8 +16,6 @@ cors_origins = [
 
 CORS(app, origins=cors_origins)
 
-print(cors_origins)
-
 
 imap_server = "imap.gmail.com"
 email_address = os.getenv("FORWARD_MAIL")

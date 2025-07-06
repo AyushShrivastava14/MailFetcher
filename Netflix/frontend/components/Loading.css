@@ -15,7 +15,7 @@
   .dot {
     width: 12px;
     height: 12px;
-    background-color: #e71f1f;
+    background-color: #eedede;
     border-radius: 50%;
     animation: pulse 1s infinite ease-in-out;
   }
@@ -44,4 +44,23 @@
     font-size: 1rem;
     font-weight: 500;
   }
-  
+
+.button-loader-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  width: 36px;
+  margin: 0;
+  padding: 0;
+}
+.button-loader-wrapper .pulse-loader {
+  height: 16px;
+  width: 32px;
+  margin-bottom: 0 !important
+}
+.button-loader-wrapper .dot {
+  width: 8px;
+  height: 8px;
+  margin: 0 2px;
+}

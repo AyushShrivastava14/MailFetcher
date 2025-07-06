@@ -57,8 +57,13 @@
   background-color: rgb(244, 5, 5);
 }
 
+/* Focus effect */
+.button:focus {
+  background-color: rgb(244, 5, 5);
+}
+
 /* Click (active) effect */
 .button:active {
   transform: scale(0.85);
-  background-color: rgb(180, 50, 50);
+  background-color: rgb(216, 152, 152);
 }

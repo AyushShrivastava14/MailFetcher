@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./EmailReader.css";
 import { useRole } from "../context/RoleContext";
+import ButtonLoader from "./ButtonLoader";
 
 function EmailReader() {
   const [emailData, setEmailData] = useState(null);
   const [error, setError] = useState(null);
   const [searchString, setSearchString] = useState("");
+  const [loading, setLoading] = useState(false);
   const { subject, subject2, url } = useRole();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.get(url + "/get_last_email", {
         params: { search: searchString, subject: subject, subject2: subject2 },
@@ -20,6 +23,8 @@ function EmailReader() {
     } catch (err) {
       setError(err.message);
       setEmailData(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,7 +74,7 @@ function EmailReader() {
           className="fw-bold button button-sm m-0"
           type="submit"
         >
-          Search
+          {loading ? <ButtonLoader /> : "Search"}
         </button>
       </form>
       {error && (

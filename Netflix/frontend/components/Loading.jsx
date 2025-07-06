@@ -14,7 +14,6 @@ export default function Loading() {
             <div className="dot" />
             <div className="dot" />
           </div>
-          <h5 className="loader-text">Please Wait...</h5>
         </div>
       </div>
     </>

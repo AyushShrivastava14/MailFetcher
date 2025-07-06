@@ -1,10 +1,33 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useRole } from "../context/RoleContext";
+import ButtonLoader from "./ButtonLoader";
 
 export default function SelectOptions() {
     const navigate = useNavigate();
     const {saveSubject, saveSubject2} = useRole();
+    const [loading, setLoading] = React.useState({ signIn: false, household: false, reset: false });
+
+  const handleSignInClick = () => {
+    setLoading({ signIn: true, household: false, reset: false });
+    changeSubject("Netflix: Your sign-in code");
+    changeSubject2(null);
+    navigate("/options/code");
+  };
+
+  const handleHouseholdClick = () => {
+    setLoading({ signIn: false, household: true, reset: false });
+    changeSubject("Your temporary access code");
+    changeSubject2("Important: how to update your Netflix household");
+    navigate("/options/emailreader");
+  };
+
+  const handleResetClick = () => {
+    setLoading({ signIn: false, household: false, reset: true });
+    changeSubject("Complete your password reset request");
+    changeSubject2(null);
+    navigate("/options/emailreader");
+  };
 
   const changeSubject = async (subject) => {
     saveSubject(subject);
@@ -20,36 +43,27 @@ export default function SelectOptions() {
         <button
           className="fw-bold button mx-4 button-sm"
           type="submit"
-          onClick={() => {
-            changeSubject("Netflix: Your sign-in code");
-            changeSubject2(null);
-            navigate("/options/code");
-          }}
+          onClick={handleSignInClick}
+          disabled={loading.signIn}
         >
-          Sign-in Code
+          {loading.signIn ? <ButtonLoader /> : "Sign-in Code"}
         </button>
         <button
           className="fw-bold button mx-4 button-sm"
           style={{ margin: "2rem 0rem" }}
           type="submit"
-        onClick={() => {
-            changeSubject("Your temporary access code");
-            changeSubject2("Important: how to update your Netflix household");
-            navigate("/options/emailreader");
-          }}
+          onClick={handleHouseholdClick}
+          disabled={loading.household}
         >
-          Household
+          {loading.household ? <ButtonLoader /> : "Household"}
         </button>
         <button
           className="fw-bold button mx-4 button-sm"
           type="submit"
-        onClick={() => {
-            changeSubject("Complete your password reset request");
-            changeSubject2(null);
-            navigate("/options/emailreader");
-          }}
+          onClick={handleResetClick}
+          disabled={loading.reset}
         >
-          Reset Link
+          {loading.reset ? <ButtonLoader /> : "Reset Link"}
         </button>
       </div>
     </>

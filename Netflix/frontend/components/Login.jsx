@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRole } from "../context/RoleContext";
 import "./EmailReader.css";
+import ButtonLoader from "./ButtonLoader";
 
 export default function Login() {
   const navigate = useNavigate();
   const [inputCode, setInputCode] = useState("");
+  const [loading, setLoading] = useState(true);
   const { saveRole, url } = useRole();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    // setLoading(true);
     try {
       const response = await fetch(url + "/access-codes");
       if (!response.ok) {
@@ -29,6 +31,8 @@ export default function Login() {
       }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
+    } finally {
+      // setLoading(false);
     }
   };
 
@@ -74,8 +78,9 @@ export default function Login() {
         <button
           className="fw-bold button button-sm"
           type="submit"
+          // disabled={loading}
         >
-          Submit
+          <ButtonLoader />
         </button>
       </form>
     </div>

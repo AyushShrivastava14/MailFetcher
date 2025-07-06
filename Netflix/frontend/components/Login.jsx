@@ -7,12 +7,12 @@ import ButtonLoader from "./ButtonLoader";
 export default function Login() {
   const navigate = useNavigate();
   const [inputCode, setInputCode] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const { saveRole, url } = useRole();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // setLoading(true);
+    setLoading(true);
     try {
       const response = await fetch(url + "/access-codes");
       if (!response.ok) {
@@ -32,7 +32,7 @@ export default function Login() {
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -78,9 +78,9 @@ export default function Login() {
         <button
           className="fw-bold button button-sm"
           type="submit"
-          // disabled={loading}
+          disabled={loading}
         >
-          <ButtonLoader />
+          {loading ? <ButtonLoader /> : "Submit"}
         </button>
       </form>
     </div>

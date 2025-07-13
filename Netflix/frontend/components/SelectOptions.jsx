@@ -16,7 +16,7 @@ export default function SelectOptions() {
   };
 
   const handleHouseholdClick = () => {
-    setLoading({ signIn: true, household: false, reset: false });
+    setLoading({ signIn: false, household: true, reset: false });
     changeSubject("Your temporary access code");
     changeSubject2("Important: how to update your Netflix household");
     navigate("/options/emailreader");
@@ -51,6 +51,7 @@ export default function SelectOptions() {
         <button
           className="fw-bold button mx-4 button-sm"
           type="submit"
+          style={{ margin: "2rem 0rem" }}
           onClick={handleHouseholdClick}
           disabled={loading.household}
         >

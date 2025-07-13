@@ -36,7 +36,7 @@ function EmailReader() {
         height: "100vh",
         opacity: "0.85",
         marginBottom: emailData ? "0rem" : "10.5rem",
-        boxSizing: "border-box"
+        boxSizing: "border-box",
       }}
     >
       <h1
@@ -70,10 +70,7 @@ function EmailReader() {
             margin: "2rem 0.7rem",
           }}
         />
-        <button
-          className="fw-bold button button-sm m-0"
-          type="submit"
-        >
+        <button className="fw-bold button button-sm m-0" type="submit">
           {loading ? <ButtonLoader /> : "Search"}
         </button>
       </form>
@@ -87,13 +84,13 @@ function EmailReader() {
       )}
       {!emailData && !error}
       {emailData && (
-        <div
-          className="m-4 p-2 d-flex flex-column align-items-center"
-          style={{ color: "white", textAlign: "justify" }}
-        >
-          <h2 className="mb-4 mt-2" style={{fontStyle: "italic"}}>Fetched Code / Link</h2>
-          {emailData.Link ? <a className="responsive-details" href={emailData.Content} target="_blank" >Click Here</a> : <p className="responsive-details" >Code: {emailData.Content}</p>}
-        </div>
+      <div
+        className="my-4 p-2 d-flex flex-column align-items-center mx-auto"
+        style={{ color: "white", backgroundColor: "black", width: "fit-content" }}
+      >
+        <h2 className="mb-4 mt-2 fw-bold" style={{ color: "red" }}>Fetched Code / Link</h2>
+        {emailData.Link ? <a className="responsive-details" href={emailData.Content} target="_blank" >Click Here</a> : <p className="responsive-details" >Code: {emailData.Content}</p>}
+      </div>
       )}
     </div>
   );

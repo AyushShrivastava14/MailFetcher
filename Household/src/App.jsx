@@ -24,7 +24,7 @@ function App() {
           >
             <Suspense fallback={<Loading />}>
               <Routes>
-                {role === "" ? (
+                {role === "user" ? (
                   <>
                     <Route
                       path="/emailreader"

@@ -6,6 +6,8 @@ import email
 import imaplib
 import os
 import re
+from email.utils import parsedate_to_datetime
+from datetime import datetime, timedelta, timezone
 
 app = Flask(__name__)
 cors_origins = [
@@ -16,27 +18,15 @@ cors_origins = [
 
 CORS(app, origins=cors_origins)
 
-
 imap_server = "imap.gmail.com"
 email_address = os.getenv("FORWARD_MAIL")
 password = os.getenv("FORWARD_MAIL_PASS")
 
-
 # MongoDB connection
 uri = os.getenv("MONGO_URI")
 client = MongoClient(uri, server_api=ServerApi('1'))
-
-# try:
-#     client.admin.command('ping')
-#     print("Pinged your deployment. You successfully connected to MongoDB!")
-# except Exception as e:
-#     print(e)
-
-# MongoDB collections
 db = client["access_codes"]
 codes_collection = db["codes"]
-
-
 
 @app.route('/get_last_email', methods=['GET'])
 def get_last_email():
@@ -46,7 +36,6 @@ def get_last_email():
 
     if not search_string or not (subject1 or subject2):
         return jsonify({"error": "At least one subject and the 'search' parameter are required"}), 400
-    
 
     blocked_domains = {
         "autofusionx.com",
@@ -59,7 +48,6 @@ def get_last_email():
 
     if search_string.lower() in blocked_domains:
         return jsonify({"error": "This domain is blocked"}), 403
-
 
     try:
         imap = imaplib.IMAP4_SSL(imap_server)
@@ -80,13 +68,24 @@ def get_last_email():
             _, msgnums2 = imap.search(None, search_criteria_2)
             email_ids += list(map(int, msgnums2[0].split()))
 
-        # Remove duplicates and sort by ID (increasing)
-        email_ids = sorted(set(email_ids))
+        # Remove duplicates, sort descending (newest first)
+        email_ids = sorted(set(email_ids), reverse=True)
 
-        if email_ids:
-            last_email = email_ids[-1]
-            _, data = imap.fetch(str(last_email), "(RFC822)")
+        # Time filter (last 15 minutes)
+        now = datetime.now(timezone.utc)
+        cutoff_time = now - timedelta(minutes=15)
+
+        for email_id in email_ids:
+            _, data = imap.fetch(str(email_id), "(RFC822)")
             message = email.message_from_bytes(data[0][1])
+
+            try:
+                date_tuple = parsedate_to_datetime(message["Date"])
+            except Exception:
+                continue  # Skip if date parsing fails
+
+            if date_tuple < cutoff_time:
+                continue
 
             email_data = {
                 "Content": "",
@@ -97,56 +96,36 @@ def get_last_email():
                 if part.get_content_type() == "text/plain":
                     content = part.get_payload(decode=True).decode()
 
-                    if(subject1 == "Complete your password reset request"):
-                        # Regex to find Netflix password reset links
+                    if subject1 == "Complete your password reset request":
                         reset_link_match = re.search(r'https://www\.netflix\.com/password\?[^ \n\r<>"]+', content)
-
-                        if reset_link_match:
-                            reset_link = reset_link_match.group(0).rstrip(']>')
-                            email_data["Content"] = reset_link
-                        else:
-                            email_data["Content"] = "Reset link not found"
+                        email_data["Content"] = reset_link_match.group(0).rstrip(']>') if reset_link_match else "Reset link not found"
                         email_data["Link"] = True
-                    
+
                     elif subject1 == "Netflix: Your sign-in code":
-                        # Extract the 4-6 digit sign-in code
                         code_match = re.search(r'\b\d{4,6}\b', content)
-                        if code_match:
-                            email_data["Content"] = code_match.group(0)
-                        else:
-                            email_data["Content"] = "Code not found"
+                        email_data["Content"] = code_match.group(0) if code_match else "Code not found"
                         email_data["Link"] = False
 
                     else:
-                        # Regex to find Netflix household update link
                         household_link_match = re.search(
                             r'https://www\.netflix\.com/account/update-primary-location\?[^ \n\r<>"]+',
                             content
                         )
-
-                        if household_link_match:
-                            household_link = household_link_match.group(0).rstrip(']>')
-                            email_data["Content"] = household_link
-                        else:
-                            email_data["Content"] = "Household update link not found"
+                        email_data["Content"] = household_link_match.group(0).rstrip(']>') if household_link_match else "Household update link not found"
                         email_data["Link"] = True
-
-
 
             imap.close()
             imap.logout()
             return jsonify(email_data)
-        else:
-            imap.close()
-            imap.logout()
-            return jsonify({"error": "No emails found"}), 404
+
+        imap.close()
+        imap.logout()
+        return jsonify({"error": "No recent emails found in last 15 minutes"}), 404
 
     except imaplib.IMAP4.error as e:
         return jsonify({"error": f"IMAP error: {str(e)}"}), 500
     except Exception as e:
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
-
-
 
 # MongoDB-based access code management
 @app.route('/access-codes', methods=['GET'])
@@ -155,7 +134,6 @@ def get_access_codes():
     if document and 'valid_codes' in document:
         return jsonify(document['valid_codes'])
     return jsonify([])
-
 
 @app.route('/access-codes', methods=['POST'])
 def add_access_code():
@@ -176,7 +154,6 @@ def add_access_code():
 
     return jsonify({"message": "Access code added successfully"})
 
-
 @app.route('/access-codes', methods=['DELETE'])
 def remove_access_code():
     code = request.json.get('code')
@@ -192,8 +169,6 @@ def remove_access_code():
         return jsonify({"message": "Access code removed successfully"})
     else:
         return jsonify({"message": "Access code does not exist"})
-    
-
 
 # MongoDB-based SIGN-IN access code management
 @app.route('/signincodes', methods=['GET'])
@@ -202,7 +177,6 @@ def get_signin_codes():
     if document and 'signin-codes' in document:
         return jsonify(document['signin-codes'])
     return jsonify([])
-
 
 @app.route('/signincodes', methods=['POST'])
 def add_signin_code():
@@ -223,7 +197,6 @@ def add_signin_code():
 
     return jsonify({"message": "Sign-In code added successfully"})
 
-
 @app.route('/signincodes', methods=['DELETE'])
 def remove_signin_code():
     code = request.json.get('code')
@@ -240,12 +213,9 @@ def remove_signin_code():
     else:
         return jsonify({"message": "Sign-In code does not exist"})
 
-    
-
 @app.route('/')
 def home():
     return jsonify({"message": "Backend is running"}), 200
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

@@ -7,12 +7,7 @@ export const RoleProvider = ({ children }) => {
   // const url = "http://127.0.0.1:5000";
 
   const [role, setRole] = useState("");
-  const [access, setAccess] = useState(false);
   const [subject, setSubject] = useState('');
-
-  const saveAccess = () => {
-    setAccess(true);
-  }
 
   const saveSubject = async (subject) => {
     setSubject(subject);
@@ -34,11 +29,9 @@ export const RoleProvider = ({ children }) => {
       value={{
         role,
         url,
-        access,
         subject,
         subject2,
         saveRole,
-        saveAccess,
         saveSubject,
         saveSubject2
       }}

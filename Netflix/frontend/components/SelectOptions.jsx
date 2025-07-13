@@ -54,7 +54,7 @@ export default function SelectOptions() {
           onClick={handleHouseholdClick}
           disabled={loading.household}
         >
-          {loading.household ? <ButtonLoader /> : "Household Code"}
+          {loading.household ? <ButtonLoader /> : "Household"}
         </button>
         <button
           className="fw-bold button mx-4 button-sm"

@@ -28,6 +28,8 @@ client = MongoClient(uri, server_api=ServerApi('1'))
 db = client["access_codes"]
 codes_collection = db["codes"]
 
+
+
 @app.route('/get_last_email', methods=['GET'])
 def get_last_email():
     search_string = request.args.get('search', default="", type=str)
@@ -127,6 +129,8 @@ def get_last_email():
     except Exception as e:
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
+
+
 # MongoDB-based access code management
 @app.route('/access-codes', methods=['GET'])
 def get_access_codes():
@@ -170,6 +174,9 @@ def remove_access_code():
     else:
         return jsonify({"message": "Access code does not exist"})
 
+
+
+
 # MongoDB-based SIGN-IN access code management
 @app.route('/signincodes', methods=['GET'])
 def get_signin_codes():
@@ -212,6 +219,58 @@ def remove_signin_code():
         return jsonify({"message": "Sign-In code removed successfully"})
     else:
         return jsonify({"message": "Sign-In code does not exist"})
+
+
+
+
+
+
+# MongoDB-based household access code management
+@app.route('/household-codes', methods=['GET'])
+def get_access_codes():
+    document = codes_collection.find_one()
+    if document and 'household-codes' in document:
+        return jsonify(document['household-codes'])
+    return jsonify([])
+
+@app.route('/household-codes', methods=['POST'])
+def add_access_code():
+    code = request.json.get('code')
+    if not code:
+        return jsonify({"message": "Invalid input"}), 400
+
+    document = codes_collection.find_one()
+    if document:
+        if code in document['household-codes']:
+            return jsonify({"message": "Access code already exists"})
+        codes_collection.update_one(
+            {'_id': document['_id']},
+            {'$push': {'household-codes': code}}
+        )
+    else:
+        codes_collection.insert_one({'household-codes': [code]})
+
+    return jsonify({"message": "Access code added successfully"})
+
+@app.route('/household-codes', methods=['DELETE'])
+def remove_access_code():
+    code = request.json.get('code')
+    if not code:
+        return jsonify({"message": "Invalid input"}), 400
+
+    document = codes_collection.find_one()
+    if document and code in document['household-codes']:
+        codes_collection.update_one(
+            {'_id': document['_id']},
+            {'$pull': {'household-codes': code}}
+        )
+        return jsonify({"message": "Access code removed successfully"})
+    else:
+        return jsonify({"message": "Access code does not exist"})
+
+
+
+
 
 @app.route('/')
 def home():

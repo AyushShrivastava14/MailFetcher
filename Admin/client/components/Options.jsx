@@ -11,21 +11,24 @@ export default function Options() {
     codesAccess: false,
     addSignIn: false,
     removeSignIn: false,
-    codesSignIn: false
+    codesSignIn: false,
+    addHousehold: false,
+    removeHousehold: false,
+    codesHousehold: false,
   });
   const { url } = useRole();
 
   const fetchAccessCodes = async () => {
-    setLoading(l => ({ ...l, codesAccess: true }));
+    setLoading((l) => ({ ...l, codesAccess: true }));
     const response = await fetch(url + "/access-codes");
     const data = await response.json();
     // console.log(data);
     alert(data);
-    setLoading(l => ({ ...l, codesAccess: false }));
+    setLoading((l) => ({ ...l, codesAccess: false }));
   };
 
   const addAccessCode = async () => {
-    setLoading(l => ({ ...l, addAccess: true }));
+    setLoading((l) => ({ ...l, addAccess: true }));
     const response = await fetch(url + "/access-codes", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -34,11 +37,11 @@ export default function Options() {
     const data = await response.json();
     alert(data.message);
     setInputCode("");
-    setLoading(l => ({ ...l, addAccess: false }));
+    setLoading((l) => ({ ...l, addAccess: false }));
   };
 
   const removeAccessCode = async () => {
-    setLoading(l => ({ ...l, removeAccess: true }));
+    setLoading((l) => ({ ...l, removeAccess: true }));
     const response = await fetch(url + "/access-codes", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -47,22 +50,21 @@ export default function Options() {
     const data = await response.json();
     alert(data.message);
     setInputCode("");
-    setLoading(l => ({ ...l, removeAccess: false }));
+    setLoading((l) => ({ ...l, removeAccess: false }));
   };
-
 
   // For SIGN-IN Codes
   const fetchSignInCodes = async () => {
-    setLoading(l => ({ ...l, codesSignIn: true }));
+    setLoading((l) => ({ ...l, codesSignIn: true }));
     const response = await fetch(url + "/signincodes");
     const data = await response.json();
     // console.log(data);
     alert(data);
-    setLoading(l => ({ ...l, codesSignIn: false }));
+    setLoading((l) => ({ ...l, codesSignIn: false }));
   };
 
   const addSignInCode = async () => {
-    setLoading(l => ({ ...l, addSignIn: true }));
+    setLoading((l) => ({ ...l, addSignIn: true }));
     const response = await fetch(url + "/signincodes", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -71,11 +73,11 @@ export default function Options() {
     const data = await response.json();
     alert(data.message);
     setInputCode("");
-    setLoading(l => ({ ...l, addSignIn: false }));
+    setLoading((l) => ({ ...l, addSignIn: false }));
   };
 
   const removeSignInCode = async () => {
-    setLoading(l => ({ ...l, removeSignIn: true }));
+    setLoading((l) => ({ ...l, removeSignIn: true }));
     const response = await fetch(url + "/signincodes", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -84,12 +86,52 @@ export default function Options() {
     const data = await response.json();
     alert(data.message);
     setInputCode("");
-    setLoading(l => ({ ...l, removeSignIn: false }));
+    setLoading((l) => ({ ...l, removeSignIn: false }));
   };
+
+
+
+  // For SIGN-IN Codes
+  const fetchHouseholdCodes = async () => {
+    setLoading((l) => ({ ...l, codesHousehold: true }));
+    const response = await fetch(url + "/household-codes");
+    const data = await response.json();
+    // console.log(data);
+    alert(data);
+    setLoading((l) => ({ ...l, codesHousehold: false }));
+  };
+
+  const addHouseholdCode = async () => {
+    setLoading((l) => ({ ...l, addHousehold: true }));
+    const response = await fetch(url + "/household-codes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code: inputCode }),
+    });
+    const data = await response.json();
+    alert(data.message);
+    setInputCode("");
+    setLoading((l) => ({ ...l, addHousehold: false }));
+  };
+
+  const removeHouseholdCode = async () => {
+    setLoading((l) => ({ ...l, removeHousehold: true }));
+    const response = await fetch(url + "/household-codes", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code: inputCode }),
+    });
+    const data = await response.json();
+    alert(data.message);
+    setInputCode("");
+    setLoading((l) => ({ ...l, removeHousehold: false }));
+  };
+
+
 
   return (
     <div
-      className="p-5"
+      className="p-5 mt-5"
       style={{
         width: "fit-content",
         opacity: "0.85",
@@ -145,7 +187,11 @@ export default function Options() {
             {loading.codesAccess ? <ButtonLoader /> : "Codes"}
           </button>
         </div>
-        <div className="me-auto mt-4 mb-3" style={{color: "white"}}><h3 className="fw-bold">For Sign-In Codes</h3></div>
+
+        {/* For Sign-in */}
+        <div className="me-auto mt-4 mb-3" style={{ color: "white" }}>
+          <h3 className="fw-bold">For Sign-In Codes</h3>
+        </div>
         <div className="d-flex mb-4 justify-content-between w-100">
           <button
             className="fw-bold button admin-button-sm"
@@ -170,6 +216,37 @@ export default function Options() {
             disabled={loading.codesSignIn}
           >
             {loading.codesSignIn ? <ButtonLoader /> : "Codes"}
+          </button>
+        </div>
+
+        {/* For Household */}
+        <div className="me-auto mt-4 mb-3" style={{ color: "white" }}>
+          <h3 className="fw-bold">For Household Codes</h3>
+        </div>
+        <div className="d-flex mb-4 justify-content-between w-100">
+          <button
+            className="fw-bold button admin-button-sm"
+            type="button"
+            onClick={addHouseholdCode}
+            disabled={loading.addHousehold}
+          >
+            {loading.addHousehold ? <ButtonLoader /> : "Add"}
+          </button>
+          <button
+            className="fw-bold button admin-button-sm"
+            type="button"
+            onClick={removeHouseholdCode}
+            disabled={loading.removeHousehold}
+          >
+            {loading.removeHousehold ? <ButtonLoader /> : "Remove"}
+          </button>
+          <button
+            className="fw-bold button m-0 admin-button-sm"
+            type="button"
+            onClick={fetchHouseholdCodes}
+            disabled={loading.codesHousehold}
+          >
+            {loading.codesHousehold ? <ButtonLoader /> : "Codes"}
           </button>
         </div>
       </form>

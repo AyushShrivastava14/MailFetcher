@@ -15,13 +15,6 @@ export default function SelectOptions() {
     navigate("/options/code");
   };
 
-  const handleHouseholdClick = () => {
-    setLoading({ signIn: false, household: true, reset: false });
-    changeSubject("Your temporary access code");
-    changeSubject2("Important: how to update your Netflix household");
-    navigate("/options/emailreader");
-  };
-
   const handleResetClick = () => {
     setLoading({ signIn: false, household: false, reset: true });
     changeSubject("Complete your password reset request");
@@ -47,15 +40,6 @@ export default function SelectOptions() {
           disabled={loading.signIn}
         >
           {loading.signIn ? <ButtonLoader /> : "Sign-in Code"}
-        </button>
-        <button
-          className="fw-bold button mx-4 button-sm"
-          style={{ margin: "2rem 0rem" }}
-          type="submit"
-          onClick={handleHouseholdClick}
-          disabled={loading.household}
-        >
-          {loading.household ? <ButtonLoader /> : "Household"}
         </button>
         <button
           className="fw-bold button mx-4 button-sm"

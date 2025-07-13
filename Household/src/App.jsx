@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Loading from "../components/Loading";
 import { useRole } from "../context/RoleContext";
@@ -24,7 +24,7 @@ function App() {
           >
             <Suspense fallback={<Loading />}>
               <Routes>
-                {role === "user" ? (
+                {role === "" ? (
                   <>
                     <Route
                       path="/emailreader"

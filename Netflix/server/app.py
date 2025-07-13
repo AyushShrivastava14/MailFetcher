@@ -227,14 +227,14 @@ def remove_signin_code():
 
 # MongoDB-based household access code management
 @app.route('/household-codes', methods=['GET'])
-def get_access_codes():
+def get_household_codes():
     document = codes_collection.find_one()
     if document and 'household-codes' in document:
         return jsonify(document['household-codes'])
     return jsonify([])
 
 @app.route('/household-codes', methods=['POST'])
-def add_access_code():
+def add_household_code():
     code = request.json.get('code')
     if not code:
         return jsonify({"message": "Invalid input"}), 400
@@ -242,7 +242,7 @@ def add_access_code():
     document = codes_collection.find_one()
     if document:
         if code in document['household-codes']:
-            return jsonify({"message": "Access code already exists"})
+            return jsonify({"message": "Household code already exists"})
         codes_collection.update_one(
             {'_id': document['_id']},
             {'$push': {'household-codes': code}}
@@ -250,10 +250,10 @@ def add_access_code():
     else:
         codes_collection.insert_one({'household-codes': [code]})
 
-    return jsonify({"message": "Access code added successfully"})
+    return jsonify({"message": "Household code added successfully"})
 
 @app.route('/household-codes', methods=['DELETE'])
-def remove_access_code():
+def remove_household_code():
     code = request.json.get('code')
     if not code:
         return jsonify({"message": "Invalid input"}), 400
@@ -264,9 +264,9 @@ def remove_access_code():
             {'_id': document['_id']},
             {'$pull': {'household-codes': code}}
         )
-        return jsonify({"message": "Access code removed successfully"})
+        return jsonify({"message": "Household code removed successfully"})
     else:
-        return jsonify({"message": "Access code does not exist"})
+        return jsonify({"message": "Household code does not exist"})
 
 
 

@@ -99,7 +99,7 @@ def get_last_email():
                     content = part.get_payload(decode=True).decode()
 
                     if subject1 == "Complete your password reset request":
-                        reset_link_match = re.search(r'https://www\.netflix\.com/password\?[^ \n\r<>"]+', content)
+                        reset_link_match = re.search(r'https://www\.netflix\.com/password\?[^ \n\r<>\"]+', content)
                         email_data["Content"] = reset_link_match.group(0).rstrip(']>') if reset_link_match else "Reset link not found"
                         email_data["Link"] = True
 
@@ -108,12 +108,33 @@ def get_last_email():
                         email_data["Content"] = code_match.group(0) if code_match else "Code not found"
                         email_data["Link"] = False
 
-                    else:
+                    elif subject1 == "Your Netflix temporary access code":
+                        # Try to extract a code or a link (adjust regex as needed)
+                        code_match = re.search(r'\b\d{4,8}\b', content)
+                        link_match = re.search(r'https://www\.netflix\.com/[^\s"\'>]+', content)
+                        if code_match:
+                            email_data["Content"] = code_match.group(0)
+                            email_data["Link"] = False
+                        elif link_match:
+                            email_data["Content"] = link_match.group(0)
+                            email_data["Link"] = True
+                        else:
+                            email_data["Content"] = "Temporary access code or link not found"
+                            email_data["Link"] = False
+
+                    elif subject1 == "Important: how to update your Netflix household":
+                        # Try to extract the update household link
                         household_link_match = re.search(
-                            r'https://www\.netflix\.com/account/update-primary-location\?[^ \n\r<>"]+',
+                            r'https://www\.netflix\.com/account/update-primary-location\?[^ \n\r<>\"]+',
                             content
                         )
                         email_data["Content"] = household_link_match.group(0).rstrip(']>') if household_link_match else "Household update link not found"
+                        email_data["Link"] = True
+
+                    else:
+                        # Fallback: try to extract any Netflix link
+                        any_link_match = re.search(r'https://www\.netflix\.com/[^\s"\'>]+', content)
+                        email_data["Content"] = any_link_match.group(0) if any_link_match else "Netflix link not found"
                         email_data["Link"] = True
 
             imap.close()

@@ -17,7 +17,7 @@ export default function SelectOptions() {
 
   const handleHouseholdClick = () => {
     setLoading({ signIn: false, household: true, reset: false });
-    changeSubject("Your temporary access code");
+    changeSubject("Your Netflix temporary access code");
     changeSubject2("Important: how to update your Netflix household");
     navigate("/options/emailreader");
   };

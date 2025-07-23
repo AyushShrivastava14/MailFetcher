@@ -16,7 +16,7 @@ function EmailReader() {
     setLoading(true);
     try {
       const response = await axios.get(url + "/get_last_email", {
-        params: { search: searchString, subject: "Your temporary access code", subject2: "Important: how to update your Netflix household" },
+        params: { search: searchString, subject: "Your Netflix temporary access code", subject2: "Important: How to update your Netflix Household" },
       });
       setEmailData(response.data);
       setError(null);

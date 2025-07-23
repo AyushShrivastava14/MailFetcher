@@ -75,7 +75,7 @@ def get_last_email():
 
         # Time filter (last 15 minutes)
         now = datetime.now(timezone.utc)
-        cutoff_time = now - timedelta(minutes=30)
+        cutoff_time = now - timedelta(minutes=120)
 
         for email_id in email_ids:
             _, data = imap.fetch(str(email_id), "(RFC822)")
